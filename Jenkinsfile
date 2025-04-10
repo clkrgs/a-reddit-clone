@@ -27,9 +27,15 @@ pipeline {
         stage("Sonarqube Analysis") {
             steps {
                 withSonarQubeEnv('SonarQube-Server') {
-                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Reddit-Clone-CI \
-                    -Dsonar.projectKey=Reddit-Clone-CI'''
-                }
+                    withEnv(["JAVA_HOME=${tool 'jdk17'}", "PATH+JAVA=${tool 'jdk17'}/bin"]) {
+                        sh '''
+                            java -version
+                            $SCANNER_HOME/bin/sonar-scanner \
+                            -Dsonar.projectName=Reddit-Clone-CI \
+                            -Dsonar.projectKey=Reddit-Clone-CI
+                        '''
+                    }
+                }    
             }
         }
         stage("Quality Gate") {
