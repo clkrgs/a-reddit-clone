@@ -24,20 +24,15 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/rbandela041/a-reddit-clone.git'
             }
         }
-        stage("Sonarqube Analysis") {
+                stage("Sonarqube Analysis") {
             steps {
                 withSonarQubeEnv('SonarQube-Server') {
-                    withEnv(["JAVA_HOME=${tool 'jdk17'}", "PATH+JAVA=${tool 'jdk17'}/bin"]) {
-                        sh '''
-                            java -version
-                            $SCANNER_HOME/bin/sonar-scanner \
-                            -Dsonar.projectName=Reddit-Clone-CI \
-                            -Dsonar.projectKey=Reddit-Clone-CI
-                        '''
-                    }
-                }    
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Reddit-Clone-CI \
+                    -Dsonar.projectKey=Reddit-Clone-CI'''
+                }
             }
         }
+
         stage("Quality Gate") {
             steps {
                 script {
