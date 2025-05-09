@@ -34,7 +34,7 @@ pipeline {
            \${SCANNER_HOME}/bin/sonar-scanner \
           -Dsonar.projectName=Reddit-Clone-CI \
           -Dsonar.projectkey=Reddit-Clone-CI \
-          -Dsonar.sources= \
+          -Dsonar.sources=. \
           -X
         """
         }
