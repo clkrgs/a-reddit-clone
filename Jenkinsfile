@@ -62,7 +62,33 @@ pipeline {
                      }
                  }
 	     }
-		    }
+	 }
+	    stage("Trivy Image Scan") {
+             steps {
+                 script {
+	                  sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image rbmihawk/reddit-clone-pipeline:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table > trivyimage.txt')
+                 }
+             }
+         }
+        stage ('Cleanup Artifacts') {
+             steps {
+                 script {
+                      sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+                      sh "docker rmi ${IMAGE_NAME}:latest"
+                 }
+             }
+         }
+    }
+    post {
+        always {
+           emailext attachLog: true,
+               subject: "'${currentBuild.result}'",
+               body: "Project: ${env.JOB_NAME}<br/>" +
+                   "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                   "URL: ${env.BUILD_URL}<br/>",
+               to: 'm.rahul1718@gmail.com',                              
+               attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        } 
 
      }
 }
