@@ -78,6 +78,7 @@ pipeline {
 				    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
 				    sh "docker rmi ${IMAGE_NAME}:latest"
 			  }
+		    }
 	  }
  }
     
@@ -93,6 +94,6 @@ pipeline {
 		         attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
 		}
 	    }
-    }
+    
 				
 }
