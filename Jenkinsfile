@@ -61,25 +61,26 @@ pipeline {
 		  docker_image.push("${IMAGE_TAG}")
 		  docker_image.push('latest')
 	    }
-	  }
 	}
      }
-	    stage("Trivy Image Scan") {
+}
+     
+  stage("Trivy Image Scan") {
 		steps {
 			script {
 				sh('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image rbmihawk/reddit-clone-app:latest --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table > trivyimage.txt')
 			}
 		}
 	 }
-	    stage('Cleanup Artifacts') {
+   stage('Cleanup Artifacts') {
 		    steps {
 			    script{
 				    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
 				    sh "docker rmi ${IMAGE_NAME}:latest"
-			    }
-		    }
-	    }
-    }
+			  }
+	  }
+ }
+    
 
     post {
        always {
@@ -89,8 +90,9 @@ pipeline {
 			      "Build Number: ${env.BUILD_NUMBER}<br/>" +
 			      "URL; ${env.BUILD_URL}<br/>" +
 	                 to: 'rbandela1704@gmail.com',
-		         attachmentsPattern: 'trivyfs.txt,trivyImage.txt'
+		         attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
 		}
 	    }
+    }
 				
 }
