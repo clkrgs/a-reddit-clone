@@ -93,6 +93,8 @@ post {
                   "URL: ${env.BUILD_URL}<br/>",
             to: 'rbandela1704@gmail.com',
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
-        )
+	       
+                )
+         }
     }
 }
