@@ -79,6 +79,7 @@ pipeline {
 			    }
 		    }
 	    }
+    }
 
 	    post {
 		always {
@@ -91,7 +92,5 @@ pipeline {
 		attachmentsPattern: 'trivyfs.txt,trivyImage.txt'
 		}
 	    }
-				    
-		  
-   }
+				
 }
