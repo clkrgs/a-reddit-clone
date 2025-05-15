@@ -1,5 +1,5 @@
 # Reddit Clone App on Kubernetes
-Test 100
+Testing automated deployment for reddit clone app
 
 
 
