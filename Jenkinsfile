@@ -37,6 +37,7 @@ pipeline {
                 }
             }
         }
+	    //scanning even it fails want to run so giving false
         stage("Quality Gate") {
             steps {
                 script {
@@ -44,11 +45,13 @@ pipeline {
                 }
             }
         }
+	    //Need dependencies NPM
         stage('Install Dependencies') {
             steps {
                 sh "npm install"
             }
         }
+	    //Need Trivy scan with trivy command 
         stage('TRIVY FS SCAN') {
             steps {
                 sh "trivy fs . > trivyfs.txt"
@@ -68,7 +71,9 @@ pipeline {
 	}
      }
 }
-     
+    }
+}
+     /*
   stage("Trivy Image Scan") {
 		steps {
 			script {
@@ -77,7 +82,7 @@ pipeline {
 		}
 	 }
     }
-}/*
+}
    stage('Cleanup Artifacts') {
 		    steps {
 			    script{
