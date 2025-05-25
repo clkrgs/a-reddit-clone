@@ -8,27 +8,30 @@ pipeline {
         SCANNER_HOME = tool 'sonar-scanner'
         APP_NAME = "reddit-clone-app"
         RELEASE = "1.0.0"
-        DOCKER_USER = "rbmihawk"
-        DOCKER_PASS = 'dockerhub'
+        DOCKER_USER = "raghukunchum"
+        DOCKER_PASS = 'Docker_2go$$'
         IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
 	
     }
+	//  cleaning the workspace.
     stages {
         stage('clean workspace') {
             steps {
                 cleanWs()
             }
         }
+	    // Tell git to checkout the code
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/rbandela041/a-reddit-clone.git'
+                git branch: 'main', url: 'https://github.com/clkrgs/a-reddit-clone.git'
             }
         }
+	    // Enter sonarqube analysis details
         stage("Sonarqube Analysis") {
             steps {
-                withSonarQubeEnv('SonarQube-Server') {
+                withSonarQubeEnv('SonarQube-Token') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Reddit-Clone-CI \
                     -Dsonar.projectKey=Reddit-Clone-CI'''
                 }
